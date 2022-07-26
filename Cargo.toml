@@ -1,38 +1,38 @@
 [package]
-name = "iyes_loopless"
-version = "0.6.1"
+categories = ["game-engines"]
 description = "Composable alternatives to Bevy's States/FixedTimestep/RunCriteria"
 edition = "2021"
+exclude = ["assets"]
+keywords = ["gamedev", "bevy"]
 license = "MIT OR Apache-2.0"
+name = "iyes_loopless"
 readme = "README.md"
 repository = "https://github.com/IyesGames/iyes_loopless"
-keywords = ["gamedev", "bevy"]
-categories = ["game-engines"]
-exclude = ["assets"]
+version = "0.6.1"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [features]
-default = [ "fixedtimestep", "states", "bevy-compat", "app" ]
+default = ["fixedtimestep", "states", "bevy-compat", "app"]
 fixedtimestep = [
-    "bevy_core",
+  "bevy_core",
 ]
 states = [
-    "bevy_utils",
+  "bevy_utils",
 ]
 # provide adapters for Bevy APIs, like the `.run_in_bevy_state` RC
 bevy-compat = []
 # provide extension traits with convenient App builder methods
 app = [
-    "bevy_app",
+  "bevy_app",
 ]
 
 [dependencies]
-bevy_ecs = "0.7.0"
-bevy_app = { version = "0.7.0", optional = true }
-bevy_core = { version = "0.7.0", optional = true }
-bevy_utils = { version = "0.7.0", optional = true }
+bevy_app = {path = "../bevy/crates/bevy_app", optional = true}
+bevy_core = {path = "../bevy/crates/bevy_core", optional = true}
+bevy_ecs = {path = "../bevy/crates/bevy_ecs"}
+bevy_utils = {path = "../bevy/crates/bevy_utils", optional = true}
 
 [dev-dependencies]
-bevy = "0.7.0"
+bevy = {path = "../bevy/"}
 rand = "0.8.5"
