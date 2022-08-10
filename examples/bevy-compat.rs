@@ -20,10 +20,11 @@ fn main() {
         .add_stage_after(
             CoreStage::PreUpdate,
             "IyesState",
-            StateTransitionStage::new(IyesState::D)
+            StateTransitionStage::new(IyesState::D),
         )
         .add_system(
-            ping.run_not_in_bevy_state(BevyState::A).run_in_state(IyesState::D)
+            ping.run_not_in_bevy_state(BevyState::A)
+                .run_in_state(IyesState::D),
         )
         .run();
 }

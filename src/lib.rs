@@ -5,11 +5,13 @@ pub mod fixedtimestep;
 pub mod state;
 
 pub mod prelude {
-    pub use crate::condition::{ConditionHelpers, IntoConditionalSystem, ConditionSet, AddConditionalToSet};
+    pub use crate::condition::{
+        AddConditionalToSet, ConditionHelpers, ConditionSet, IntoConditionalSystem,
+    };
     #[cfg(feature = "fixedtimestep")]
     pub use crate::fixedtimestep::{FixedTimestepInfo, FixedTimestepStage};
-    #[cfg(feature = "states")]
-    pub use crate::state::{CurrentState, NextState, StateTransitionStage};
     #[cfg(feature = "app")]
     pub use crate::state::app::AppLooplessStateExt;
+    #[cfg(feature = "states")]
+    pub use crate::state::{CurrentState, NextState, StateTransitionStage};
 }

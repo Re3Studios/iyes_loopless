@@ -63,7 +63,7 @@ fn main() {
                 // our menu button handlers
                 .with_system(butt_exit.run_if(on_butt_interact::<ExitButt>))
                 .with_system(butt_game.run_if(on_butt_interact::<EnterButt>))
-                .into()
+                .into(),
         )
         // in-game stuff
         .add_system_set(
@@ -72,7 +72,7 @@ fn main() {
                 .with_system(back_to_menu_on_esc)
                 .with_system(clear_on_del)
                 .with_system(spin_sprites.run_if_not(spacebar_pressed))
-                .into()
+                .into(),
         )
         // our other various systems:
         .add_system(debug_current_state)
@@ -161,7 +161,8 @@ fn setup_ui_camera(mut commands: Commands) {
 
 /// Spawn the game camera
 fn setup_game_camera(mut commands: Commands) {
-    commands.spawn_bundle(OrthographicCameraBundle::new_2d())
+    commands
+        .spawn_bundle(OrthographicCameraBundle::new_2d())
         .insert(GameCamera);
 }
 

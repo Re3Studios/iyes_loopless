@@ -27,8 +27,14 @@ use bevy_ecs::{
     event::Events,
     prelude::Local,
     query::Access,
-    schedule::{SystemSet, IntoSystemDescriptor, SystemLabel, ParallelSystemDescriptorCoercion, ParallelSystemDescriptor},
-    system::{AsSystemLabel, In, IntoChainSystem, IntoSystem, Res, Resource, System, BoxedSystem, ExclusiveSystem, IntoExclusiveSystem},
+    schedule::{
+        IntoSystemDescriptor, ParallelSystemDescriptor, ParallelSystemDescriptorCoercion,
+        SystemLabel, SystemSet,
+    },
+    system::{
+        AsSystemLabel, BoxedSystem, ExclusiveSystem, In, IntoChainSystem, IntoExclusiveSystem,
+        IntoSystem, Res, Resource, System,
+    },
     world::World,
 };
 
@@ -64,38 +70,32 @@ pub struct ConditionalSystemDescriptor {
 
 impl ConditionalSystemDescriptor {
     pub fn add_label(&mut self, label: impl SystemLabel) {
-        self.label_shits.push(Box::new(move |wa| {
-            match wa {
-                BevyDescriptorWorkaround::Descriptor(x) => {
-                    BevyDescriptorWorkaround::Descriptor(x.label(label))
-                }
-                BevyDescriptorWorkaround::System(x) => {
-                    BevyDescriptorWorkaround::Descriptor(x.label(label))
-                }
+        self.label_shits.push(Box::new(move |wa| match wa {
+            BevyDescriptorWorkaround::Descriptor(x) => {
+                BevyDescriptorWorkaround::Descriptor(x.label(label))
+            }
+            BevyDescriptorWorkaround::System(x) => {
+                BevyDescriptorWorkaround::Descriptor(x.label(label))
             }
         }))
     }
     pub fn add_before<Marker>(&mut self, label: impl AsSystemLabel<Marker> + 'static) {
-        self.label_shits.push(Box::new(move |wa| {
-            match wa {
-                BevyDescriptorWorkaround::Descriptor(x) => {
-                    BevyDescriptorWorkaround::Descriptor(x.before(label))
-                }
-                BevyDescriptorWorkaround::System(x) => {
-                    BevyDescriptorWorkaround::Descriptor(x.before(label))
-                }
+        self.label_shits.push(Box::new(move |wa| match wa {
+            BevyDescriptorWorkaround::Descriptor(x) => {
+                BevyDescriptorWorkaround::Descriptor(x.before(label))
+            }
+            BevyDescriptorWorkaround::System(x) => {
+                BevyDescriptorWorkaround::Descriptor(x.before(label))
             }
         }))
     }
     pub fn add_after<Marker>(&mut self, label: impl AsSystemLabel<Marker> + 'static) {
-        self.label_shits.push(Box::new(move |wa| {
-            match wa {
-                BevyDescriptorWorkaround::Descriptor(x) => {
-                    BevyDescriptorWorkaround::Descriptor(x.after(label))
-                }
-                BevyDescriptorWorkaround::System(x) => {
-                    BevyDescriptorWorkaround::Descriptor(x.after(label))
-                }
+        self.label_shits.push(Box::new(move |wa| match wa {
+            BevyDescriptorWorkaround::Descriptor(x) => {
+                BevyDescriptorWorkaround::Descriptor(x.after(label))
+            }
+            BevyDescriptorWorkaround::System(x) => {
+                BevyDescriptorWorkaround::Descriptor(x.after(label))
             }
         }))
     }
@@ -436,10 +436,7 @@ pub trait IntoConditionalSystem<Params>: IntoSystem<(), (), Params> + Sized {
         self.into_conditional().run_if(condition)
     }
 
-    fn run_if_not<Condition, CondParams>(
-        self,
-        condition: Condition,
-    ) -> ConditionalSystemDescriptor
+    fn run_if_not<Condition, CondParams>(self, condition: Condition) -> ConditionalSystemDescriptor
     where
         Condition: IntoSystem<(), bool, CondParams>,
     {
@@ -527,7 +524,9 @@ where
 }
 
 /// Extension trait for conditional exclusive systems
-pub trait IntoConditionalExclusiveSystem<Params, SystemType>: IntoExclusiveSystem<Params, SystemType> + Sized {
+pub trait IntoConditionalExclusiveSystem<Params, SystemType>:
+    IntoExclusiveSystem<Params, SystemType> + Sized
+{
     fn into_conditional(self) -> ConditionalExclusiveSystem;
 
     fn run_if<Condition, CondParams>(self, condition: Condition) -> ConditionalExclusiveSystem
@@ -537,10 +536,7 @@ pub trait IntoConditionalExclusiveSystem<Params, SystemType>: IntoExclusiveSyste
         self.into_conditional().run_if(condition)
     }
 
-    fn run_if_not<Condition, CondParams>(
-        self,
-        condition: Condition,
-    ) -> ConditionalExclusiveSystem
+    fn run_if_not<Condition, CondParams>(self, condition: Condition) -> ConditionalExclusiveSystem
     where
         Condition: IntoSystem<(), bool, CondParams>,
     {
@@ -657,17 +653,22 @@ impl ConditionSet {
     }
 
     pub fn label(mut self, label: impl SystemLabel) -> Self {
-        self.labellers.push(Box::new(move |set: SystemSet| set.label(label)));
+        self.labellers
+            .push(Box::new(move |set: SystemSet| set.label(label)));
         self
     }
 
     pub fn before<Marker>(mut self, label: impl AsSystemLabel<Marker> + 'static) -> Self {
-        self.labellers.push(Box::new(move |set: SystemSet| set.before(label.as_system_label())));
+        self.labellers.push(Box::new(move |set: SystemSet| {
+            set.before(label.as_system_label())
+        }));
         self
     }
 
     pub fn after<Marker>(mut self, label: impl AsSystemLabel<Marker> + 'static) -> Self {
-        self.labellers.push(Box::new(move |set: SystemSet| set.after(label.as_system_label())));
+        self.labellers.push(Box::new(move |set: SystemSet| {
+            set.after(label.as_system_label())
+        }));
         self
     }
 }
@@ -730,7 +731,8 @@ impl AddConditionalToSet<ConditionSystemSet, ()> for ConditionalSystemDescriptor
 }
 
 impl<System, Params> AddConditionalToSet<ConditionSystemSet, Params> for System
-where System: IntoConditionalSystem<Params>,
+where
+    System: IntoConditionalSystem<Params>,
 {
     fn add_to_set(self, set: &mut ConditionSystemSet) {
         set.systems.push(self.into_conditional());
@@ -747,7 +749,8 @@ impl ConditionSet {
         // to add the condition to each system
         self.conditions.push(Box::new(move |system| {
             let condition_clone = condition.clone();
-            let condition_system = <Condition as IntoSystem<(), bool, Params>>::into_system(condition_clone);
+            let condition_system =
+                <Condition as IntoSystem<(), bool, Params>>::into_system(condition_clone);
             system.conditions.insert(0, Box::new(condition_system))
         }));
         self
