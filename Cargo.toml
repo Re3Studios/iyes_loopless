@@ -28,12 +28,12 @@ app = [
 ]
 
 [dependencies]
-bevy_ecs = "0.8"
-bevy_app = { version = "0.8", optional = true }
-bevy_utils = { version = "0.8", optional = true }
-bevy_time = { version = "0.8", optional = true }
+bevy_ecs = { path = "./../bevy/crates/bevy_ecs" }
+bevy_app = { path = "./../bevy/crates/bevy_app", optional = true }
+bevy_utils = { path = "./../bevy/crates/bevy_utils", optional = true }
+bevy_time = { path = "./../bevy/crates/bevy_time", optional = true }
 bevy-inspector-egui = { version = "0.12", optional = true, default-features = false }
 
 [dev-dependencies]
-bevy = "0.8"
+bevy = { path = "./../../bevy" }
 rand = "0.8.5"
