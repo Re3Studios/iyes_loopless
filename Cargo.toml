@@ -32,7 +32,6 @@ bevy_ecs = { path = "./../bevy/crates/bevy_ecs" }
 bevy_app = { path = "./../bevy/crates/bevy_app", optional = true }
 bevy_utils = { path = "./../bevy/crates/bevy_utils", optional = true }
 bevy_time = { path = "./../bevy/crates/bevy_time", optional = true }
-bevy-inspector-egui = { version = "0.12", optional = true, default-features = false }
 
 [dev-dependencies]
 bevy = { path = "./../../bevy" }
