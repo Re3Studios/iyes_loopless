@@ -34,5 +34,5 @@ bevy_utils = { path = "./../bevy/crates/bevy_utils", optional = true }
 bevy_time = { path = "./../bevy/crates/bevy_time", optional = true }
 
 [dev-dependencies]
-bevy = { path = "./../../bevy" }
+bevy = { path = "./../bevy" }
 rand = "0.8.5"
