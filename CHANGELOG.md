@@ -2,6 +2,37 @@
 
 Notable user-facing changes with each release version will be described in this file.
 
+## [0.9.1]: 2022-11-20
+
+### Fixed
+ - Conditional exclusive systems no longer panic when ran
+
+## [0.9.0]: 2022-11-19
+
+### Changed
+ - Bevy 0.9 compatibility
+
+## [0.8.0]: 2022-10-24
+
+### Added
+ - All missing API docs
+ - Extension traits for a nice API on App/Schedule for working with fixed timesteps, similar to states
+ - `FixedTimesteps` resource: allows any system to access the properties of any fixed timestep
+ - Fixed timesteps can be paused/unpaused
+
+### Changed
+ - `FixedTimestepInfo` is now accessed via a `FixedTimesteps` resource
+ - Fixed timestep APIs use string names to identify fixed timesteps
+ - Create a conditional exclusive system by calling `.into_conditional_exclusive()`.
+   No more conflicting traits. No need for special imports, prelude just works.
+
+### Removed
+ - `FixedTimestepInfo` is no longer directly provided as a resource
+
+### Fixed
+ - `run_on_event` run condition no longer fires twice under some edge cases
+ - WASM compatibility for fixed timestep: use `bevy_utils::Duration` instead of `std::time::Duration`
+
 ## [0.7.1]: 2022-08-18
 
 ### Added
@@ -99,6 +130,9 @@ Notable user-facing changes with each release version will be described in this 
 
 Initial Release
 
+[0.9.1]: https://github.com/IyesGames/iyes_loopless/tree/v0.9.1
+[0.9.0]: https://github.com/IyesGames/iyes_loopless/tree/v0.9.0
+[0.8.0]: https://github.com/IyesGames/iyes_loopless/tree/v0.8.0
 [0.7.1]: https://github.com/IyesGames/iyes_loopless/tree/v0.7.1
 [0.7.0]: https://github.com/IyesGames/iyes_loopless/tree/v0.7.0
 [0.6.1]: https://github.com/IyesGames/iyes_loopless/tree/v0.6.1
